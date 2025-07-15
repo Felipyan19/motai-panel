@@ -8,9 +8,13 @@ import {
   deleteProductData,
 } from "@/actions/products";
 import { IProduct } from "@/lib/schemas/product";
-import { UseProductsReturn } from "@/types/hooks/hooks";
+import { IUseProductsReturn } from "@/types/hooks/hooks";
+import { toast } from "@/lib/utils/toast";
 
-export const useProducts = (): UseProductsReturn => {
+// prevent duplicate toast (react strict mode issue)
+let hasShownLoadedToast = false;
+
+export const useProducts = (): IUseProductsReturn => {
   const [products, setProducts] = useState<IProduct[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -26,8 +30,15 @@ export const useProducts = (): UseProductsReturn => {
     try {
       const data = await getProductsData();
       setProducts(data);
+      // only show toast once to avoid spam
+      if (!hasShownLoadedToast) {
+        toast.success("Products loaded successfully");
+        hasShownLoadedToast = true;
+      }
     } catch (err) {
+      console.log("Error loading products:", err); // TODO: remove this
       setError(err as Error);
+      toast.error("Failed to load products");
     } finally {
       setLoading(false);
     }
@@ -39,8 +50,10 @@ export const useProducts = (): UseProductsReturn => {
     try {
       const data = await createProductData(product);
       setProducts((prev) => (prev ? [...prev, data] : [data]));
+      toast.success("Product created successfully");
     } catch (err) {
       setError(err as Error);
+      toast.error("Product creation failed");
     } finally {
       setLoading(false);
     }
@@ -54,8 +67,10 @@ export const useProducts = (): UseProductsReturn => {
       setProducts((prev) =>
         prev ? prev.map((p) => (p.id === product.id ? product : p)) : [product]
       );
+      toast.success("Product updated successfully");
     } catch (err) {
       setError(err as Error);
+      toast.error("Update failed");
     } finally {
       setLoading(false);
     }
@@ -67,8 +82,10 @@ export const useProducts = (): UseProductsReturn => {
     try {
       await deleteProductData(id.toString());
       setProducts((prev) => (prev ? prev.filter((p) => p.id !== id) : null));
+      toast.success("Product deleted");
     } catch (err) {
       setError(err as Error);
+      toast.error("Delete failed");
     } finally {
       setLoading(false);
     }

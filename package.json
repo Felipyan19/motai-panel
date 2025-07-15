@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
+    "framer-motion": "^12.23.6",
     "next": "15.3.5",
+    "nextjs-toast-notify": "^1.47.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.60.0",
