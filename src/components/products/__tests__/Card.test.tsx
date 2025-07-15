@@ -1,12 +1,14 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Card } from "../Card";
+import type { IProduct } from "@/lib/schemas/product";
 
-const product = {
-  id: "123",
+const product: IProduct = {
+  id: 123,
   title: "Product 1",
   description: "Description 1",
   image: "/vercel.svg",
   price: 100,
+  category: "Category 1",
 };
 
 describe("<Card />", () => {
@@ -16,7 +18,7 @@ describe("<Card />", () => {
 
     render(
       <Card
-        product={product as any}
+        product={product}
         onEditProduct={onEdit}
         onDeleteProduct={onDelete}
       />
@@ -36,7 +38,7 @@ describe("<Card />", () => {
 
     render(
       <Card
-        product={product as any}
+        product={product}
         onEditProduct={onEdit}
         onDeleteProduct={onDelete}
       />
