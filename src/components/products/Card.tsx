@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { ICardProps } from "@/types/components/card";
+import { motion } from "framer-motion";
 
 export const Card = ({
   product,
@@ -9,7 +10,15 @@ export const Card = ({
   onDeleteProduct,
 }: ICardProps) => {
   return (
-    <div className="border border-dark-border rounded-lg p-4 bg-dark-card shadow-sm h-full flex flex-col">
+    <motion.div
+      layout
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      whileHover={{ scale: 1.03 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className="border border-dark-border rounded-lg p-4 bg-dark-card shadow-sm h-full flex flex-col"
+    >
       <Image
         src={product.image}
         alt={product.title}
@@ -37,6 +46,6 @@ export const Card = ({
           Delete
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };

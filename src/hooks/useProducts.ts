@@ -11,6 +11,8 @@ import { IProduct } from "@/lib/schemas/product";
 import { IUseProductsReturn } from "@/types/hooks/hooks";
 import { toast } from "@/lib/utils/toast";
 
+let hasShownLoadedToast = false;
+
 export const useProducts = (): IUseProductsReturn => {
   const [products, setProducts] = useState<IProduct[] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -27,7 +29,10 @@ export const useProducts = (): IUseProductsReturn => {
     try {
       const data = await getProductsData();
       setProducts(data);
-      toast.success("Products loaded successfully");
+      if (!hasShownLoadedToast) {
+        toast.success("Products loaded successfully");
+        hasShownLoadedToast = true;
+      }
     } catch (err) {
       setError(err as Error);
       toast.error("Products loaded failed");

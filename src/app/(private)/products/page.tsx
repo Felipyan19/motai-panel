@@ -11,6 +11,7 @@ import { ConfirmationModal } from "@/components/ui/ConfirmationModal";
 import { IProduct } from "@/lib/schemas/product";
 import { LoadingSkeleton } from "@/components/products/loadingSkeleton";
 import { ErrorFetch } from "@/components/products/ErrorFetch";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function ProductsPage() {
   const {
@@ -46,24 +47,32 @@ export default function ProductsPage() {
         onSearch={searchProducts}
       />
 
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5 p-10">
-        {filteredProducts?.map((product: IProduct) => (
-          <Card
-            key={product.id}
-            product={product} 
-            onEditProduct={handleEditProduct}
-            onDeleteProduct={handleDeleteProduct}
-          />
-        ))}
-        {loading &&
-          Array.from({ length: 8 }).map((_, index) => (
-            <LoadingSkeleton key={index} />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5 p-10"
+      >
+        <AnimatePresence mode="popLayout">
+          {filteredProducts?.map((product: IProduct) => (
+            <Card
+              key={`product-${product.id}`}
+              product={product}
+              onEditProduct={handleEditProduct}
+              onDeleteProduct={handleDeleteProduct}
+            />
           ))}
-      </div>
+          {loading &&
+            Array.from({ length: 8 }).map((_, index) => (
+              <LoadingSkeleton key={`skeleton-${index}`} />
+            ))}
+        </AnimatePresence>
+      </motion.div>
 
-        {error && (
-          <ErrorFetch error={error?.message ?? ""} onLoad={loadProducts} />
-        )}
+      {error && (
+        <ErrorFetch error={error?.message ?? ""} onLoad={loadProducts} />
+      )}
 
       {stateModal.isOpen && (
         <Modal

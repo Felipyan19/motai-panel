@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { login } from "@/actions/auth";
 import { ErrorInput } from "@/components/ui/ErrorInput";
 import { toast } from "@/lib/utils/toast";
+import { motion } from "framer-motion";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -29,7 +30,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-dark-bg p-4">
+    <motion.div
+      className="min-h-screen flex items-center justify-center bg-dark-bg p-4"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+    >
       <div className="w-full max-w-md bg-dark-card rounded-lg shadow-xl p-8">
         <h1 className="text-3xl font-bold text-center text-dark-text mb-8">
           Login
@@ -46,7 +53,7 @@ export default function LoginPage() {
               }`}
             />
             {errors.username && (
-                <ErrorInput error={errors.username.message ?? ""} />
+              <ErrorInput error={errors.username.message ?? ""} />
             )}
           </div>
 
@@ -73,6 +80,6 @@ export default function LoginPage() {
           </button>
         </form>
       </div>
-    </div>
+    </motion.div>
   );
 }
