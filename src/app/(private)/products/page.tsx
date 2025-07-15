@@ -2,9 +2,11 @@
 
 import { useProducts } from "@/hooks/useProducts";
 
-export default async function ProductsPage() {
+
+export default function ProductsPage() {
   const { getProducts } = useProducts();
-  const { productsData, loadingData, errorData } = await getProducts();
+  const { productsData, loadingData, errorData } = getProducts();
+
   return (
     <div>
       <h1>Products</h1>

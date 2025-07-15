@@ -29,4 +29,3 @@ const validateLogin = async (data: ILogin) => {
   };
 };
 
-
