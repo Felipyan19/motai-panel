@@ -4,8 +4,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { login } from "./action";
 import { loginSchema, ILogin } from "@/lib/schemas/auth";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -15,7 +17,10 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (data: ILogin) => {
-    await login(data);
+    const response = await login(data);
+    if (response.success) {
+      router.push("/dashboard");
+    }
   };
 
   return (
