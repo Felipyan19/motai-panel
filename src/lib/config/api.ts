@@ -1,5 +1,5 @@
 export const API_URL = {
-  BASE: process.env.NEXT_PUBLIC_API_URL,
+  BASE: process.env.BASE_URL_API,
   PRODUCTS: {
     ALL: "/products",
     POST: "/products",
