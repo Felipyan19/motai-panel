@@ -8,7 +8,6 @@ import { Modal } from "@/components/Modal";
 import { useProducts } from "@/hooks/useProducts";
 import { useModalProduct } from "@/hooks/useModalProduct";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
-import { defaultProduct } from "@/lib/schemas/product";
 
 export default function ProductsPage() {
   const {

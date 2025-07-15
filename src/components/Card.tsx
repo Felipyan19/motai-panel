@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { CardProps } from "@/types/components";
 
 export const Card = ({
@@ -9,9 +10,11 @@ export const Card = ({
 }: CardProps) => {
   return (
     <div className="border border-gray-300 rounded-lg p-4 bg-white shadow-sm">
-      <img
+      <Image
         src={product.image}
         alt={product.title}
+        width={280}
+        height={200}
         className="w-full h-[200px] object-cover rounded"
       />
       <h3 className="my-3 text-lg">{product.title}</h3>

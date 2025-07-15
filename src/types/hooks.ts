@@ -7,7 +7,7 @@ export interface ProductOperations {
   deleteProduct: (id: number) => Promise<void>;
 }
 
-export interface UseModalProductProps extends ProductOperations {}
+export type UseModalProductProps = ProductOperations;
 
 export interface UseModalProductReturn extends ModalActions {
   stateModal: ModalState;
