@@ -9,6 +9,10 @@ export const Card = ({
   onEditProduct,
   onDeleteProduct,
 }: ICardProps) => {
+  const handleEdit = () => {
+    onEditProduct(product);
+  };
+
   return (
     <motion.div
       layout
@@ -16,7 +20,7 @@ export const Card = ({
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
       whileHover={{ scale: 1.03 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
+      transition={{ duration: 0.3 }}
       className="border border-dark-border rounded-lg p-4 bg-dark-card shadow-sm h-full flex flex-col"
     >
       <Image
@@ -34,8 +38,14 @@ export const Card = ({
       </p>
       <div className="flex justify-between items-center mt-5">
         <button
-          className="bg-dark-button text-dark-text px-4 py-2 rounded hover:bg-opacity-80 transition-colors"
-          onClick={() => onEditProduct(product)}
+          style={{
+            backgroundColor: "#374151",
+            color: "#e5e7eb",
+            padding: "8px 16px",
+            borderRadius: "6px",
+          }}
+          className="hover:bg-opacity-80 transition-colors"
+          onClick={handleEdit}
         >
           Edit
         </button>

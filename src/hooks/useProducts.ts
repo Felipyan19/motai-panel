@@ -11,6 +11,7 @@ import { IProduct } from "@/lib/schemas/product";
 import { IUseProductsReturn } from "@/types/hooks/hooks";
 import { toast } from "@/lib/utils/toast";
 
+// prevent duplicate toast (react strict mode issue)
 let hasShownLoadedToast = false;
 
 export const useProducts = (): IUseProductsReturn => {
@@ -29,13 +30,15 @@ export const useProducts = (): IUseProductsReturn => {
     try {
       const data = await getProductsData();
       setProducts(data);
+      // only show toast once to avoid spam
       if (!hasShownLoadedToast) {
         toast.success("Products loaded successfully");
         hasShownLoadedToast = true;
       }
     } catch (err) {
+      console.log("Error loading products:", err); // TODO: remove this
       setError(err as Error);
-      toast.error("Products loaded failed");
+      toast.error("Failed to load products");
     } finally {
       setLoading(false);
     }
@@ -50,7 +53,7 @@ export const useProducts = (): IUseProductsReturn => {
       toast.success("Product created successfully");
     } catch (err) {
       setError(err as Error);
-      toast.error("Product created failed");
+      toast.error("Product creation failed");
     } finally {
       setLoading(false);
     }
@@ -67,7 +70,7 @@ export const useProducts = (): IUseProductsReturn => {
       toast.success("Product updated successfully");
     } catch (err) {
       setError(err as Error);
-      toast.error("Product updated failed");
+      toast.error("Update failed");
     } finally {
       setLoading(false);
     }
@@ -79,10 +82,10 @@ export const useProducts = (): IUseProductsReturn => {
     try {
       await deleteProductData(id.toString());
       setProducts((prev) => (prev ? prev.filter((p) => p.id !== id) : null));
-      toast.success("Product deleted successfully");
+      toast.success("Product deleted");
     } catch (err) {
       setError(err as Error);
-      toast.error("Product deleted failed");
+      toast.error("Delete failed");
     } finally {
       setLoading(false);
     }

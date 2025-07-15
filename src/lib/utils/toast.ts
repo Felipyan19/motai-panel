@@ -3,9 +3,7 @@ import { CONFIG_TOAST } from "@/lib/constants/toast";
 
 export const toast = {
   success: (message: string) => {
-    showToast.success(message, {
-      ...CONFIG_TOAST,
-    });
+    showToast.success(message, CONFIG_TOAST);
   },
   error: (message: string) => {
     showToast.error(message, {
@@ -14,7 +12,8 @@ export const toast = {
   },
   warning: (message: string) => {
     showToast.warning(message, {
-      ...CONFIG_TOAST,
+      position: "top-right",
+      duration: 3000,
     });
   },
   info: (message: string) => {

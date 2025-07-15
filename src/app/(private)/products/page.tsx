@@ -11,7 +11,9 @@ import { ConfirmationModal } from "@/components/ui/ConfirmationModal";
 import { IProduct } from "@/lib/schemas/product";
 import { LoadingSkeleton } from "@/components/products/loadingSkeleton";
 import { ErrorFetch } from "@/components/products/ErrorFetch";
-import { motion, AnimatePresence } from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 
 export default function ProductsPage() {
   const {
