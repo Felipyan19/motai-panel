@@ -6,6 +6,7 @@ import { loginSchema, ILogin } from "@/lib/schemas/auth";
 import { useRouter } from "next/navigation";
 import { login } from "@/actions/auth";
 import { ErrorInput } from "@/components/ui/ErrorInput";
+import { toast } from "@/lib/utils/toast";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -21,6 +22,9 @@ export default function LoginPage() {
     const response = await login(data);
     if (response.success) {
       router.push("/products");
+      toast.success("Login successful");
+    } else {
+      toast.error("Login failed");
     }
   };
 

@@ -9,6 +9,7 @@ import {
 } from "@/actions/products";
 import { IProduct } from "@/lib/schemas/product";
 import { IUseProductsReturn } from "@/types/hooks/hooks";
+import { toast } from "@/lib/utils/toast";
 
 export const useProducts = (): IUseProductsReturn => {
   const [products, setProducts] = useState<IProduct[] | null>(null);
@@ -26,8 +27,10 @@ export const useProducts = (): IUseProductsReturn => {
     try {
       const data = await getProductsData();
       setProducts(data);
+      toast.success("Products loaded successfully");
     } catch (err) {
       setError(err as Error);
+      toast.error("Products loaded failed");
     } finally {
       setLoading(false);
     }
@@ -39,8 +42,10 @@ export const useProducts = (): IUseProductsReturn => {
     try {
       const data = await createProductData(product);
       setProducts((prev) => (prev ? [...prev, data] : [data]));
+      toast.success("Product created successfully");
     } catch (err) {
       setError(err as Error);
+      toast.error("Product created failed");
     } finally {
       setLoading(false);
     }
@@ -54,8 +59,10 @@ export const useProducts = (): IUseProductsReturn => {
       setProducts((prev) =>
         prev ? prev.map((p) => (p.id === product.id ? product : p)) : [product]
       );
+      toast.success("Product updated successfully");
     } catch (err) {
       setError(err as Error);
+      toast.error("Product updated failed");
     } finally {
       setLoading(false);
     }
@@ -67,8 +74,10 @@ export const useProducts = (): IUseProductsReturn => {
     try {
       await deleteProductData(id.toString());
       setProducts((prev) => (prev ? prev.filter((p) => p.id !== id) : null));
+      toast.success("Product deleted successfully");
     } catch (err) {
       setError(err as Error);
+      toast.error("Product deleted failed");
     } finally {
       setLoading(false);
     }
