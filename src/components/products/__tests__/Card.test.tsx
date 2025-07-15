@@ -13,8 +13,8 @@ const product: IProduct = {
 
 describe("<Card />", () => {
   it('with onClick "Edit" should call onEditProduct', () => {
-    const onEdit = jest.fn();
-    const onDelete = jest.fn();
+    const onEdit = jest.fn<void, [IProduct]>();
+    const onDelete = jest.fn<void, [IProduct]>();
 
     render(
       <Card
@@ -33,8 +33,8 @@ describe("<Card />", () => {
 
 describe("<Card />", () => {
   it('with onClick "Delete" should call onDeleteProduct', () => {
-    const onEdit = jest.fn();
-    const onDelete = jest.fn();
+    const onEdit = jest.fn<void, [IProduct]>();
+    const onDelete = jest.fn<void, [IProduct]>();
 
     render(
       <Card
