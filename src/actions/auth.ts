@@ -1,14 +1,20 @@
 "use server";
 
 import { loginSchema, ILogin } from "@/lib/schemas/auth";
-import { setToken } from "@/lib/utils/token";
+import { removeToken, setToken } from "@/lib/utils/token";
 import { MOCK_TOKEN, MOCK_CREDENTIALS } from "@/lib/constants/auth";
+import { redirect } from "next/navigation";
 
 export async function login(data: ILogin) {
   const validatedData = loginSchema.parse(data);
   const response = await validateLogin(validatedData);
 
   return response;
+}
+
+export async function logout() {
+  await removeToken();
+  redirect("/login");
 }
 
 const validateLogin = async (data: ILogin) => {
