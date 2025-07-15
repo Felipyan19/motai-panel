@@ -8,15 +8,15 @@ export const HeaderProducts = ({
   const onQueryChanged = useQueryDebounce({ onSearch });
 
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex justify-center items-center mt-5 gap-5">
       <input
         type="text"
         placeholder="Search"
-        className="border border-gray-300 rounded-md p-2"
+        className="border border-dark-border rounded-md p-2"
         onChange={onQueryChanged}
       />
       <button
-        className="bg-blue-500 text-white px-4 py-2 rounded"
+        className="bg-dark-button text-dark-text px-4 py-2 rounded"
         onClick={onAddProduct}
       >
         Add Product

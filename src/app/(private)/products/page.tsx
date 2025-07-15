@@ -35,17 +35,15 @@ export default function ProductsPage() {
   });
 
   return (
-    <div className="p-5">
+    <div className="bg-dark-bg h-screen p-7">
       <Header />
 
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error.message}</p>}
+      <HeaderProducts
+        onAddProduct={handleAddProduct}
+        onSearch={searchProducts}
+      />
 
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5 mt-5 p-10">
-        <HeaderProducts
-          onAddProduct={handleAddProduct}
-          onSearch={searchProducts}
-        />
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5 p-10">
         {filteredProducts?.map((product: IProduct) => (
           <Card
             key={product.id}
@@ -54,9 +52,22 @@ export default function ProductsPage() {
             onDeleteProduct={handleDeleteProduct}
           />
         ))}
+
+        {loading && <p>Loading...</p>}
+        {error && <p>Error: {error.message}</p>}
       </div>
       {stateModal.isOpen && (
-        <Modal isOpen={stateModal.isOpen} onClose={handleCloseModal}>
+        <Modal
+          isOpen={stateModal.isOpen}
+          onClose={handleCloseModal}
+          title={
+            stateModal.mode === "add"
+              ? "Add Product"
+              : stateModal.mode === "edit"
+              ? "Edit Product"
+              : "Delete Product"
+          }
+        >
           {(stateModal.mode === "add" || stateModal.mode === "edit") && (
             <FormProduct
               product={stateModal.product}
