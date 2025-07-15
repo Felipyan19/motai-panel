@@ -37,7 +37,7 @@ export const FormProduct = ({
           type="number"
           step="0.01"
           placeholder="Price"
-          {...register("price")}
+          {...register("price", { valueAsNumber: true })}
           className="w-full p-2 border border-dark-border rounded"
         />
         {errors.price && <ErrorInput error={errors.price.message ?? ""} />}
