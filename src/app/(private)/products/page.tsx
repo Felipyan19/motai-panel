@@ -39,7 +39,7 @@ export default function ProductsPage() {
   });
 
   return (
-    <div className="bg-dark-bg h-screen p-7">
+    <div className="bg-dark-bg min-h-screen p-7">
       <Header />
 
       <HeaderProducts
@@ -52,7 +52,7 @@ export default function ProductsPage() {
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5 p-10"
+        className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5 px-3 sm:px-6 lg:px-10 py-10"
       >
         <AnimatePresence mode="popLayout">
           {filteredProducts?.map((product: IProduct) => (
