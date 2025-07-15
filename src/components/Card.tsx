@@ -15,6 +15,7 @@ export const Card = ({
         alt={product.title}
         width={280}
         height={200}
+        style={{ width: "auto", height: "auto" }}
         className="w-full h-[200px] object-cover rounded"
       />
       <h3 className="my-3 text-lg">{product.title}</h3>
