@@ -11,6 +11,16 @@ export const productFormSchema = z.object({
 
 export type IProduct = z.infer<typeof productFormSchema>;
 
+// Tipo específico para el formulario que maneja los valores de entrada
+export type IProductFormData = {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  image: string;
+};
+
 export const defaultProduct: IProduct = {
   id: 0,
   title: "",

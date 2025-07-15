@@ -1,8 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { IFormProductProps } from "@/types/components/FormProducts";
-import { productFormSchema } from "@/lib/schemas/product";
+import { productFormSchema, IProductFormData } from "@/lib/schemas/product";
 import { ErrorInput } from "../ui/ErrorInput";
 
 export const FormProduct = ({
@@ -13,12 +12,12 @@ export const FormProduct = ({
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<z.infer<typeof productFormSchema>>({
+  } = useForm<IProductFormData>({
     defaultValues: product,
     resolver: zodResolver(productFormSchema),
   });
 
-  const onSubmit = (data: z.infer<typeof productFormSchema>) => {
+  const onSubmit = (data: IProductFormData) => {
     onSubmitProduct(data);
   };
 
@@ -47,7 +46,9 @@ export const FormProduct = ({
           {...register("description")}
           className="w-full p-2 border border-dark-border rounded h-20"
         />
-        {errors.description && <ErrorInput error={errors.description.message ?? ""} />}
+        {errors.description && (
+          <ErrorInput error={errors.description.message ?? ""} />
+        )}
 
         <input
           type="text"
@@ -55,7 +56,9 @@ export const FormProduct = ({
           {...register("category")}
           className="w-full p-2 border border-dark-border rounded"
         />
-        {errors.category && <ErrorInput error={errors.category.message ?? ""} />}
+        {errors.category && (
+          <ErrorInput error={errors.category.message ?? ""} />
+        )}
 
         <input
           type="url"
