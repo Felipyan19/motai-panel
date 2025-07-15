@@ -1,11 +1,11 @@
 import { redirect } from "next/navigation";
-import { isAuthenticated } from "@/lib/utils/auth";
+import { useAuth } from "@/hooks/useAuth";
 
 export default async function HomePage() {
-  const authenticated = await isAuthenticated();
-
-  if (authenticated) {
-    redirect("/dashboard");
+  const { isAuthenticated } = useAuth();
+  const isAuth = await isAuthenticated();
+  if (isAuth) {
+    redirect("/products");
   } else {
     redirect("/login");
   }

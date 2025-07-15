@@ -19,7 +19,7 @@ export default function LoginPage() {
   const onSubmit = async (data: ILogin) => {
     const response = await login(data);
     if (response.success) {
-      router.push("/dashboard");
+      router.push("/products");
     }
   };
 
