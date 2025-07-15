@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { ChangeEvent, useRef } from "react";
 import { HeaderProductsProps } from "@/types/components";
 
-export const HeaderProducts = ({ onAddProduct }: HeaderProductsProps) => {
-  const [search, setSearch] = useState("");
+export const HeaderProducts = ({ onAddProduct, onSearch }: HeaderProductsProps) => {
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleAddProduct = () => {
-    onAddProduct();
+  const onQueryChanged = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+    debounceRef.current = setTimeout(() => {
+      onSearch?.(value);
+    }, 500);
   };
 
   return (
@@ -14,12 +20,11 @@ export const HeaderProducts = ({ onAddProduct }: HeaderProductsProps) => {
         type="text"
         placeholder="Search"
         className="border border-gray-300 rounded-md p-2"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={onQueryChanged}
       />
       <button
         className="bg-blue-500 text-white px-4 py-2 rounded"
-        onClick={handleAddProduct}
+        onClick={onAddProduct}
       >
         Add Product
       </button>

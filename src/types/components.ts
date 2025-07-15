@@ -13,6 +13,7 @@ export interface FormProductProps {
 
 export interface HeaderProductsProps {
   onAddProduct: () => void;
+  onSearch?: (query: string) => void;
 }
 
 export interface ConfirmationModalProps {

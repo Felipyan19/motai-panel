@@ -12,11 +12,13 @@ import { ConfirmationModal } from "@/components/ConfirmationModal";
 export default function ProductsPage() {
   const {
     products,
+    filteredProducts,
     loading,
     error,
     updateProduct,
     createProduct,
     deleteProduct,
+    searchProducts,
   } = useProducts();
 
   const {
@@ -40,8 +42,11 @@ export default function ProductsPage() {
       {error && <p>Error: {error.message}</p>}
 
       <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5 mt-5 p-10">
-        <HeaderProducts onAddProduct={handleAddProduct} />
-        {products?.map((product) => (
+        <HeaderProducts
+          onAddProduct={handleAddProduct}
+          onSearch={searchProducts}
+        />
+        {filteredProducts?.map((product) => (
           <Card
             key={product.id}
             product={product}
