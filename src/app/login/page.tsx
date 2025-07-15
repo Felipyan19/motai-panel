@@ -24,41 +24,54 @@ export default function LoginPage() {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <input
-            type="text"
-            placeholder="Username"
-            {...register("username")}
-            style={{ borderColor: errors.username ? "red" : "initial" }}
-          />
-          {errors.username && (
-            <p style={{ color: "red", fontSize: "14px", margin: "4px 0" }}>
-              {errors.username.message}
-            </p>
-          )}
-        </div>
+    <div className="min-h-screen flex items-center justify-center bg-dark-bg p-4">
+      <div className="w-full max-w-md bg-dark-card rounded-lg shadow-xl p-8">
+        <h1 className="text-3xl font-bold text-center text-dark-text mb-8">
+          Login
+        </h1>
 
-        <div>
-          <input
-            type="password"
-            placeholder="Password"
-            {...register("password")}
-            style={{ borderColor: errors.password ? "red" : "initial" }}
-          />
-          {errors.password && (
-            <p style={{ color: "red", fontSize: "14px", margin: "4px 0" }}>
-              {errors.password.message}
-            </p>
-          )}
-        </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div>
+            <input
+              type="text"
+              placeholder="Username"
+              {...register("username")}
+              className={`w-full px-3 py-2 bg-dark-input border rounded-md text-dark-text placeholder-dark-placeholder focus:outline-none focus:ring-2 focus:ring-primary ${
+                errors.username ? "border-red-500" : "border-dark-border"
+              }`}
+            />
+            {errors.username && (
+              <p className="text-dark-error text-sm mt-1">
+                {errors.username.message}
+              </p>
+            )}
+          </div>
 
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Submitting..." : "Login"}
-        </button>
-      </form>
+          <div>
+            <input
+              type="password"
+              placeholder="Password"
+              {...register("password")}
+              className={`w-full px-3 py-2 bg-dark-input border rounded-md text-dark-text placeholder-dark-placeholder focus:outline-none focus:ring-2 focus:ring-primary ${
+                errors.password ? "border-red-500" : "border-dark-border"
+              }`}
+            />
+            {errors.password && (
+              <p className="text-dark-error text-sm mt-1">
+                {errors.password.message}
+              </p>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-primary hover:bg-primary-hover disabled:bg-primary-disabled text-dark-text font-medium py-2 px-4 rounded-md transition-colors duration-200"
+          >
+            {isSubmitting ? "Submitting..." : "Login"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
