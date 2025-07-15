@@ -1,15 +1,21 @@
 import { IProduct } from "@/lib/schemas/product";
 
-export type ModalMode = "add" | "edit" | "delete";
+export type IModalMode = "add" | "edit" | "delete";
 
-export interface ModalState {
+export interface IModalProps {
   isOpen: boolean;
-  mode: ModalMode;
+  onClose: () => void;
+  children: React.ReactNode;
+}
+
+export interface IModalState {
+  isOpen: boolean;
+  mode: IModalMode;
   product: IProduct;
   handleFunction: (product: IProduct) => void;
 }
 
-export interface ModalActions {
+export interface IModalActions {
   handleEditProduct: (product: IProduct) => Promise<void>;
   handleDeleteProduct: (product: IProduct) => Promise<void>;
   handleAddProduct: () => Promise<void>;

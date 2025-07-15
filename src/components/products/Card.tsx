@@ -1,13 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { CardProps } from "@/types/components";
+import { ICardProps } from "@/types/components/card";
 
 export const Card = ({
   product,
   onEditProduct,
   onDeleteProduct,
-}: CardProps) => {
+}: ICardProps) => {
   return (
     <div className="border border-gray-300 rounded-lg p-4 bg-white shadow-sm">
       <Image

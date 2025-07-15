@@ -1,14 +1,13 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { FormProductProps } from "@/types/components";
+import { IFormProductProps } from "@/types/components/FormProducts";
 import { productFormSchema } from "@/lib/schemas/product";
-import { useEffect } from "react";
 
 export const FormProduct = ({
   product,
   onSubmit: onSubmitProduct,
-}: FormProductProps) => {
+}: IFormProductProps) => {
   const {
     register,
     handleSubmit,
@@ -21,10 +20,6 @@ export const FormProduct = ({
   const onSubmit = (data: z.infer<typeof productFormSchema>) => {
     onSubmitProduct(data);
   };
-
-  useEffect(() => {
-    console.log(product);
-  }, [product]);
 
   return (
     <div>
@@ -42,6 +37,7 @@ export const FormProduct = ({
 
         <input
           type="number"
+          step="0.01"
           placeholder="Price"
           {...register("price")}
           className="w-full p-2 border border-gray-300 rounded"

@@ -1,17 +1,17 @@
 "use client";
 
-import { Card } from "@/components/Card";
-import { FormProduct } from "@/components/FormProduct";
-import { Header } from "@/components/Header";
-import { HeaderProducts } from "@/components/HeaderProducts";
-import { Modal } from "@/components/Modal";
+import { Card } from "@/components/products/Card";
+import { FormProduct } from "@/components/products/FormProduct";
+import { Header } from "@/components/layout/Header";
+import { HeaderProducts } from "@/components/products/HeaderProducts";
+import { Modal } from "@/components/ui/Modal";
 import { useProducts } from "@/hooks/useProducts";
 import { useModalProduct } from "@/hooks/useModalProduct";
-import { ConfirmationModal } from "@/components/ConfirmationModal";
+import { ConfirmationModal } from "@/components/ui/ConfirmationModal";
+import { IProduct } from "@/lib/schemas/product";
 
 export default function ProductsPage() {
   const {
-    products,
     filteredProducts,
     loading,
     error,
@@ -46,7 +46,7 @@ export default function ProductsPage() {
           onAddProduct={handleAddProduct}
           onSearch={searchProducts}
         />
-        {filteredProducts?.map((product) => (
+        {filteredProducts?.map((product: IProduct) => (
           <Card
             key={product.id}
             product={product}

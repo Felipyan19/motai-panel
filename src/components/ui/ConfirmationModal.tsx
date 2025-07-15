@@ -1,10 +1,10 @@
-import { ConfirmationModalProps } from "@/types/components";
+import { IConfirmationModalProps } from "@/types/components/ConfirmationModal";
 
 export const ConfirmationModal = ({
   message,
   onConfirm,
   onCancel,
-}: ConfirmationModalProps) => {
+}: IConfirmationModalProps) => {
   return (
     <div>
       <h2 className="text-xl font-bold mb-4">Confirmation</h2>

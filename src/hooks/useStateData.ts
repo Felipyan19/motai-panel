@@ -1,6 +1,6 @@
 "use client";
 
-import { IStateData } from "@/types/stateData";
+import { IStateData } from "@/types/common/stateData";
 import { useEffect, useState } from "react";
 
 export const useStateData = <T>(fetchFunction: () => Promise<T>) => {

@@ -1,6 +1,9 @@
 import { useState } from "react";
-import { ModalState } from "@/types/modal";
-import { UseModalProductProps, UseModalProductReturn } from "@/types/hooks";
+import { IModalState } from "@/types/components/modal";
+import {
+  UseModalProductProps,
+  UseModalProductReturn,
+} from "@/types/hooks/hooks";
 import { IProduct, defaultProduct } from "@/lib/schemas/product";
 
 export const useModalProduct = ({
@@ -8,19 +11,26 @@ export const useModalProduct = ({
   createProduct,
   deleteProduct,
 }: UseModalProductProps): UseModalProductReturn => {
-  const [stateModal, setStateModal] = useState<ModalState>({
+  const [stateModal, setStateModal] = useState<IModalState>({
     isOpen: false,
     mode: "add",
     product: defaultProduct,
     handleFunction: () => {},
   });
 
+  const wrapperFunction = (func: (product: IProduct) => Promise<void>) => {
+    return async (product: IProduct) => {
+      await func(product);
+      handleCloseModal();
+    };
+  };
+
   const handleAddProduct = async () => {
     setStateModal({
       isOpen: true,
       mode: "add",
       product: defaultProduct,
-      handleFunction: createProduct,
+      handleFunction: wrapperFunction(createProduct),
     });
   };
 
@@ -29,7 +39,7 @@ export const useModalProduct = ({
       isOpen: true,
       mode: "edit",
       product: product,
-      handleFunction: updateProduct,
+      handleFunction: wrapperFunction(updateProduct),
     });
   };
 

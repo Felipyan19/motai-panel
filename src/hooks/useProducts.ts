@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   getProductsData,
   createProductData,
@@ -8,13 +8,13 @@ import {
   deleteProductData,
 } from "@/actions/products";
 import { IProduct } from "@/lib/schemas/product";
-import { UseProductsReturn } from "@/types/hooks";
+import { UseProductsReturn } from "@/types/hooks/hooks";
 
 export const useProducts = (): UseProductsReturn => {
   const [products, setProducts] = useState<IProduct[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const [filteredProducts, setFilteredProducts] = useState<IProduct[] | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     loadProducts();
@@ -26,7 +26,6 @@ export const useProducts = (): UseProductsReturn => {
     try {
       const data = await getProductsData();
       setProducts(data);
-      setFilteredProducts(data);
     } catch (err) {
       setError(err as Error);
     } finally {
@@ -38,11 +37,8 @@ export const useProducts = (): UseProductsReturn => {
     setLoading(true);
     setError(null);
     try {
-      console.log("product to create", product);
       const data = await createProductData(product);
-      console.log("product created", data);
-      setProducts((prev) => prev ? [...prev, data] : [data]);
-      setFilteredProducts((prev) => prev ? [...prev, data] : [data]);
+      setProducts((prev) => (prev ? [...prev, data] : [data]));
     } catch (err) {
       setError(err as Error);
     } finally {
@@ -54,12 +50,8 @@ export const useProducts = (): UseProductsReturn => {
     setLoading(true);
     setError(null);
     try {
-      const data = await updateProductData(product);
-      console.log("product updated", data);
+      await updateProductData(product);
       setProducts((prev) =>
-        prev ? prev.map((p) => (p.id === product.id ? product : p)) : [product]
-      );
-      setFilteredProducts((prev) =>
         prev ? prev.map((p) => (p.id === product.id ? product : p)) : [product]
       );
     } catch (err) {
@@ -73,10 +65,8 @@ export const useProducts = (): UseProductsReturn => {
     setLoading(true);
     setError(null);
     try {
-      const data = await deleteProductData(id.toString());
-      console.log("product deleted", data);
-      setProducts((prev) => prev ? prev.filter((p) => p.id !== id) : null);
-      setFilteredProducts((prev) => prev ? prev.filter((p) => p.id !== id) : null);
+      await deleteProductData(id.toString());
+      setProducts((prev) => (prev ? prev.filter((p) => p.id !== id) : null));
     } catch (err) {
       setError(err as Error);
     } finally {
@@ -84,19 +74,15 @@ export const useProducts = (): UseProductsReturn => {
     }
   };
 
-  const searchProducts = (query: string) => {
-    if (!products) return;
-    
-    if (!query.trim()) {
-      setFilteredProducts(products);
-      return;
-    }
-    
-    const filtered = products.filter(product => 
-      product.title.toLowerCase().includes(query.toLowerCase()) ||
-      product.description?.toLowerCase().includes(query.toLowerCase())
+  const filteredProducts = useMemo(() => {
+    if (!products) return [];
+    return products.filter((p) =>
+      p.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    setFilteredProducts(filtered);
+  }, [products, searchQuery]);
+
+  const searchProducts = (query: string) => {
+    setSearchQuery(query.trim() ?? "");
   };
 
   return {
