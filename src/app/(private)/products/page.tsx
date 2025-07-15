@@ -1,66 +1,104 @@
 "use client";
 
-import { Card } from "@/components/card";
+import { Card } from "@/components/Card";
 import { FormProduct } from "@/components/FormProduct";
 import { Header } from "@/components/Header";
 import { HeaderProducts } from "@/components/HeaderProducts";
 import { Modal } from "@/components/Modal";
 import { useProducts } from "@/hooks/useProducts";
 import { IProduct } from "@/lib/schemas/product";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
+interface IStateModal {
+  isOpen: boolean;
+  mode: "add" | "edit";
+  product: IProduct | null;
+  handleFunction: (product: IProduct) => void;
+}
+
+const defaultProduct: IProduct = {
+  id: 0,
+  title: "",
+  price: 0,
+  description: "",
+  category: "",
+  image: "",
+};
 
 export default function ProductsPage() {
-  const { getProducts } = useProducts();
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const { productsData, loadingData, errorData } = getProducts();
+  const {
+    products,
+    loading,
+    error,
+    updateProduct,
+    createProduct,
+    deleteProduct,
+  } = useProducts();
+  const [stateModal, setStateModal] = useState<IStateModal>({
+    isOpen: false,
+    mode: "add",
+    product: null,
+    handleFunction: () => {},
+  });
 
-  const handleOpenModal = () => {
-    setIsOpen(true);
+  const handleEditProduct = async (product: IProduct) => {
+    setStateModal({
+      isOpen: true,
+      mode: "edit",
+      product: product,
+      handleFunction: updateProduct,
+    });
+  };
+
+  const handleDeleteProduct = async (product: IProduct) => {
+    try {
+      await deleteProduct(product.id);
+    } catch (err) {
+      console.error("Failed to delete product:", err);
+    }
+  };
+
+  const handleAddProduct = async (product: IProduct) => {
+    setStateModal({
+      isOpen: true,
+      mode: "add",
+      product: product,
+      handleFunction: createProduct,
+    });
   };
 
   const handleCloseModal = () => {
-    setIsOpen(false);
+    setStateModal({
+      isOpen: false,
+      mode: "add",
+      product: null,
+      handleFunction: () => {},
+    });
   };
-
-  useEffect(() => {
-    if (productsData) {
-      setProducts(productsData);
-    }
-  }, [productsData]);
 
   return (
     <div className="p-5">
       <Header />
 
-      {loadingData && <p>Loading...</p>}
-      {errorData && <p>Error: {errorData.message}</p>}
+      {loading && <p>Loading...</p>}
+      {error && <p>Error: {error.message}</p>}
 
       <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5 mt-5 p-10">
-        <HeaderProducts
-          setProducts={setProducts}
-          onAddProduct={handleOpenModal}
-        />
+        <HeaderProducts onAddProduct={handleAddProduct} />
         {products?.map((product) => (
           <Card
             key={product.id}
             product={product}
-            products={products}
-            setProducts={setProducts}
+            onEditProduct={handleEditProduct}
+            onDeleteProduct={handleDeleteProduct}
           />
         ))}
       </div>
-      {isOpen && (
-        <Modal isOpen={isOpen} onClose={handleCloseModal}>
+      {stateModal.isOpen && (
+        <Modal isOpen={stateModal.isOpen} onClose={handleCloseModal}>
           <FormProduct
-            product={{
-              id: 0,
-              title: "",
-              price: 0,
-              description: "",
-              category: "",
-              image: "",
-            }}
+            product={stateModal.product || defaultProduct}
+            onSubmit={stateModal.handleFunction}
           />
         </Modal>
       )}

@@ -1,14 +1,23 @@
-import { IProduct } from "@/lib/schemas/product";
 import { useState } from "react";
+import { IProduct } from "@/lib/schemas/product";
 
 export const HeaderProducts = ({
-  setProducts,
   onAddProduct,
 }: {
-  setProducts: (products: IProduct[]) => void;
-  onAddProduct: () => void;
+  onAddProduct: (product: IProduct) => void;
 }) => {
   const [search, setSearch] = useState("");
+
+  const handleAddProduct = () => {
+    onAddProduct({
+      id: 0,
+      title: "",
+      price: 0,
+      description: "",
+      category: "",
+      image: "",
+    });
+  };
 
   return (
     <div className="flex justify-between items-center">
@@ -21,7 +30,7 @@ export const HeaderProducts = ({
       />
       <button
         className="bg-blue-500 text-white px-4 py-2 rounded"
-        onClick={onAddProduct}
+        onClick={handleAddProduct}
       >
         Add Product
       </button>

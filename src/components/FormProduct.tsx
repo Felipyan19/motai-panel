@@ -1,14 +1,15 @@
 import { useForm } from "react-hook-form";
 import { IProduct } from "@/lib/schemas/product";
 
-export const FormProduct = ({ product }: { product: IProduct }) => {
+interface FormProductProps {
+  product: IProduct;
+  onSubmit: (data: IProduct) => void;
+}
+
+export const FormProduct = ({ product, onSubmit }: FormProductProps) => {
   const { register, handleSubmit } = useForm<IProduct>({
     defaultValues: product,
   });
-
-  const onSubmit = (data: IProduct) => {
-    console.log(data);
-  };
 
   return (
     <div>

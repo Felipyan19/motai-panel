@@ -1,23 +1,16 @@
+"use client";
+
 import { IProduct } from "@/lib/schemas/product";
 
-type SetProducts = (products: IProduct[]) => void;
-
-export const Card = ({ 
-  product, 
-  products, 
-  setProducts 
-}: { 
-  product: IProduct; 
-  products: IProduct[];
-  setProducts: SetProducts;
+export const Card = ({
+  product,
+  onEditProduct,
+  onDeleteProduct,
+}: {
+  product: IProduct;
+  onEditProduct: (product: IProduct) => void;
+  onDeleteProduct: (product: IProduct) => void;
 }) => {
-  const handleEditProduct = () => {
-
-  };
-
-  const handleDeleteProduct = () => {
-    setProducts(products.filter((p) => p.id !== product.id));
-  };
 
   return (
     <div className="border border-gray-300 rounded-lg p-4 bg-white shadow-sm">
@@ -29,10 +22,16 @@ export const Card = ({
       <h3 className="my-3 text-lg">{product.title}</h3>
       <p className="text-gray-600 text-sm my-2">{product.description}</p>
       <div className="flex justify-between items-center">
-        <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={handleEditProduct}>
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={() => onEditProduct(product)}
+        >
           Edit
         </button>
-        <button className="bg-red-500 text-white px-4 py-2 rounded" onClick={handleDeleteProduct}>
+        <button
+          className="bg-red-500 text-white px-4 py-2 rounded"
+          onClick={() => onDeleteProduct(product)}
+        >
           Delete
         </button>
       </div>
