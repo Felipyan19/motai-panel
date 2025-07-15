@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Motai Panel
 
-## Getting Started
+## Prerequisits
 
-First, run the development server:
+- Node.js 18 or more newer
+- pnpm 8+ is recomendded
+
+## Instalation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This will download all the dependecies that the proyect need.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Runing on dev mode
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm dev
+```
 
-## Learn More
+Open the browser on `http://localhost:3000` to see the aplicattion. Any change you save will be refreshed automaticaly.
 
-To learn more about Next.js, take a look at the following resources:
+## Build for produtcion
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+pnpm build
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The optimized files are created inside `.next/`. To preview the build localy run:
 
-## Deploy on Vercel
+```bash
+pnpm start
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Tests
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+We use **Jest** & **Testing Library** for make tests.
+
+```bash
+pnpm test
+```
+
+## Linter
+
+```bash
+pnpm lint
+```
+
+## Enviroment variables
+
+1. Copy `.env.example` as `.env`.
+2. Fill the values that are necesary (api tokens, urls, ect.).
+
+## Basic recomandations
+
+- Always use **pnpm** to keep dependencys consistent.
+- Enable ESLint and Prettier extencion on your editor to mantain code style.
+- Follow Conventional Commits when writing commit messages.
+- Create branchs with prefix `feat/`, `fix/` or `chore/` acording what are you doing.
+- Before push, run `pnpm lint` and `pnpm test` to skip erros in CI.
+
+## Proyect Arquiitecture 🏗️
+
+Below is a (simplfyed) view of the main folders so you dont get lost:
+
+```text
+motai-panel/
+├─ src/
+│  ├─ actions/
+│  ├─ app/
+│  │  └─ (private)/
+│  ├─ components/
+│  ├─ hooks/
+│  ├─ lib/
+│  ├─ middleware.ts
+│  └─ types/
+├─ public/
+├─ docs/
+├─ package.json
+└─ README.md
+```
+
+Each folder have it own responsability:
+
+- `src/actions` 👉 small helpers to conect with API.
+- `src/app` 👉 Next.js routes .
+- `src/components` 👉 Reusable UI stuff.
+- `src/hooks` 👉 Custom React hooks.
+- `src/lib` 👉 Utils, shemas, constants, etc.
+- `src/types` 👉 Shared TypeScript tipe defs.
+
+Try to keep files short and clean; if something grows to big, splitt it in sub-folders.

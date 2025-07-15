@@ -20,10 +20,8 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (data: ILogin) => {
-    console.log("attempting login...");
     const response = await login(data);
     if (response.success) {
-      // redirect to main page
       router.push("/products");
       toast.success("Login successful");
     } else {

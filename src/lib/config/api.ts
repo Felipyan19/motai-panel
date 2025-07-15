@@ -1,5 +1,5 @@
 export const API_URL = {
-  BASE: "https://fakestoreapi.com",
+  BASE: process.env.BASE_URL_API,
   PRODUCTS: {
     ALL: "/products",
     POST: "/products",
