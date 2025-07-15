@@ -1,5 +1,5 @@
 export const API_URL = {
-  BASE: "https://fakestoreapi.com",
+  BASE: process.env.NEXT_PUBLIC_API_URL,
   PRODUCTS: {
     ALL: "/products",
     POST: "/products",

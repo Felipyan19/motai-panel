@@ -11,7 +11,6 @@ import { IProduct } from "@/lib/schemas/product";
 import { IUseProductsReturn } from "@/types/hooks/hooks";
 import { toast } from "@/lib/utils/toast";
 
-// prevent duplicate toast (react strict mode issue)
 let hasShownLoadedToast = false;
 
 export const useProducts = (): IUseProductsReturn => {
@@ -30,13 +29,11 @@ export const useProducts = (): IUseProductsReturn => {
     try {
       const data = await getProductsData();
       setProducts(data);
-      // only show toast once to avoid spam
       if (!hasShownLoadedToast) {
         toast.success("Products loaded successfully");
         hasShownLoadedToast = true;
       }
     } catch (err) {
-      console.log("Error loading products:", err); // TODO: remove this
       setError(err as Error);
       toast.error("Failed to load products");
     } finally {
