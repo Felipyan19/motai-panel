@@ -6,24 +6,9 @@ import { Header } from "@/components/Header";
 import { HeaderProducts } from "@/components/HeaderProducts";
 import { Modal } from "@/components/Modal";
 import { useProducts } from "@/hooks/useProducts";
-import { IProduct } from "@/lib/schemas/product";
-import { useState } from "react";
-
-interface IStateModal {
-  isOpen: boolean;
-  mode: "add" | "edit";
-  product: IProduct | null;
-  handleFunction: (product: IProduct) => void;
-}
-
-const defaultProduct: IProduct = {
-  id: 0,
-  title: "",
-  price: 0,
-  description: "",
-  category: "",
-  image: "",
-};
+import { useModalProduct } from "@/hooks/useModalProduct";
+import { ConfirmationModal } from "@/components/ConfirmationModal";
+import { defaultProduct } from "@/lib/schemas/product";
 
 export default function ProductsPage() {
   const {
@@ -34,47 +19,19 @@ export default function ProductsPage() {
     createProduct,
     deleteProduct,
   } = useProducts();
-  const [stateModal, setStateModal] = useState<IStateModal>({
-    isOpen: false,
-    mode: "add",
-    product: null,
-    handleFunction: () => {},
+
+  const {
+    stateModal,
+    handleEditProduct,
+    handleDeleteProduct,
+    handleAddProduct,
+    handleCloseModal,
+    confirmDeleteProduct,
+  } = useModalProduct({
+    updateProduct,
+    createProduct,
+    deleteProduct,
   });
-
-  const handleEditProduct = async (product: IProduct) => {
-    setStateModal({
-      isOpen: true,
-      mode: "edit",
-      product: product,
-      handleFunction: updateProduct,
-    });
-  };
-
-  const handleDeleteProduct = async (product: IProduct) => {
-    try {
-      await deleteProduct(product.id);
-    } catch (err) {
-      console.error("Failed to delete product:", err);
-    }
-  };
-
-  const handleAddProduct = async (product: IProduct) => {
-    setStateModal({
-      isOpen: true,
-      mode: "add",
-      product: product,
-      handleFunction: createProduct,
-    });
-  };
-
-  const handleCloseModal = () => {
-    setStateModal({
-      isOpen: false,
-      mode: "add",
-      product: null,
-      handleFunction: () => {},
-    });
-  };
 
   return (
     <div className="p-5">
@@ -96,10 +53,19 @@ export default function ProductsPage() {
       </div>
       {stateModal.isOpen && (
         <Modal isOpen={stateModal.isOpen} onClose={handleCloseModal}>
-          <FormProduct
-            product={stateModal.product || defaultProduct}
-            onSubmit={stateModal.handleFunction}
-          />
+          {(stateModal.mode === "add" || stateModal.mode === "edit") && (
+            <FormProduct
+              product={stateModal.product}
+              onSubmit={stateModal.handleFunction}
+            />
+          )}
+          {stateModal.mode === "delete" && (
+            <ConfirmationModal
+              message={`Are you sure you want to delete "${stateModal.product?.title}"?`}
+              onConfirm={confirmDeleteProduct}
+              onCancel={handleCloseModal}
+            />
+          )}
         </Modal>
       )}
     </div>

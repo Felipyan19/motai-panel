@@ -8,9 +8,10 @@ import {
   deleteProductData,
 } from "@/actions/products";
 import { IProduct } from "@/lib/schemas/product";
+import { UseProductsReturn } from "@/types/hooks";
 
-export const useProducts = () => {
-  const [products, setProducts] = useState<IProduct[]>([]);
+export const useProducts = (): UseProductsReturn => {
+  const [products, setProducts] = useState<IProduct[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -38,7 +39,7 @@ export const useProducts = () => {
       console.log("product to create", product);
       const data = await createProductData(product);
       console.log("product created", data);
-      setProducts((prev) => [...prev, data]);
+      setProducts((prev) => prev ? [...prev, data] : [data]);
     } catch (err) {
       setError(err as Error);
     } finally {
@@ -53,7 +54,7 @@ export const useProducts = () => {
       const data = await updateProductData(product);
       console.log("product updated", data);
       setProducts((prev) =>
-        prev.map((p) => (p.id === product.id ? product : p))
+        prev ? prev.map((p) => (p.id === product.id ? product : p)) : [product]
       );
     } catch (err) {
       setError(err as Error);
@@ -68,7 +69,7 @@ export const useProducts = () => {
     try {
       const data = await deleteProductData(id.toString());
       console.log("product deleted", data);
-      setProducts((prev) => prev.filter((p) => p.id !== id));
+      setProducts((prev) => prev ? prev.filter((p) => p.id !== id) : null);
     } catch (err) {
       setError(err as Error);
     } finally {

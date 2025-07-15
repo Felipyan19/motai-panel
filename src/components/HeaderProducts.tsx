@@ -1,22 +1,11 @@
 import { useState } from "react";
-import { IProduct } from "@/lib/schemas/product";
+import { HeaderProductsProps } from "@/types/components";
 
-export const HeaderProducts = ({
-  onAddProduct,
-}: {
-  onAddProduct: (product: IProduct) => void;
-}) => {
+export const HeaderProducts = ({ onAddProduct }: HeaderProductsProps) => {
   const [search, setSearch] = useState("");
 
   const handleAddProduct = () => {
-    onAddProduct({
-      id: 0,
-      title: "",
-      price: 0,
-      description: "",
-      category: "",
-      image: "",
-    });
+    onAddProduct();
   };
 
   return (

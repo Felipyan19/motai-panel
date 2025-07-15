@@ -1,7 +1,6 @@
 "use client";
 
 import { logout } from "@/actions/auth";
-import { useAuth } from "@/hooks/useAuth";
 
 export const Header = () => {
 const handleLogout = async () => {

@@ -1,17 +1,12 @@
 "use client";
 
-import { IProduct } from "@/lib/schemas/product";
+import { CardProps } from "@/types/components";
 
 export const Card = ({
   product,
   onEditProduct,
   onDeleteProduct,
-}: {
-  product: IProduct;
-  onEditProduct: (product: IProduct) => void;
-  onDeleteProduct: (product: IProduct) => void;
-}) => {
-
+}: CardProps) => {
   return (
     <div className="border border-gray-300 rounded-lg p-4 bg-white shadow-sm">
       <img

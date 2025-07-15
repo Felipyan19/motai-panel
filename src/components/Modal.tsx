@@ -1,12 +1,14 @@
+interface IModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+}
+
 export const Modal = ({
   isOpen,
   onClose,
   children,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-  children: React.ReactNode;
-}) => {
+}: IModalProps) => {
   if (!isOpen) return null;
 
   return (
