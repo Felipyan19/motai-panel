@@ -77,7 +77,7 @@ export default function ProductsPage() {
         </AnimatePresence>
       </motion.div>
 
-      {error && (
+      {error && !loading && filteredProducts?.length === 0 && (
         <ErrorFetch error={error?.message ?? ""} onLoad={loadProducts} />
       )}
 
