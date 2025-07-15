@@ -6,6 +6,6 @@ export const MOCK_CREDENTIALS = {
 };
 export const COOKIE_OPTIONS = {
   httpOnly: true,
-  maxAge: 60 * 60 * 24 * 30,
+  maxAge: 60 * 2,
   path: "/",
 };
