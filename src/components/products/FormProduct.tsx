@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { IFormProductProps } from "@/types/components/FormProducts";
 import { productFormSchema } from "@/lib/schemas/product";
+import { ErrorInput } from "../ui/ErrorInput";
 
 export const FormProduct = ({
   product,
@@ -30,7 +31,7 @@ export const FormProduct = ({
           {...register("title")}
           className="w-full p-2 border border-dark-border rounded"
         />
-        {errors.title && <p className="text-red-500">{errors.title.message}</p>}
+        {errors.title && <ErrorInput error={errors.title.message ?? ""} />}
 
         <input
           type="number"
@@ -39,16 +40,14 @@ export const FormProduct = ({
           {...register("price")}
           className="w-full p-2 border border-dark-border rounded"
         />
-        {errors.price && <p className="text-red-500">{errors.price.message}</p>}
+        {errors.price && <ErrorInput error={errors.price.message ?? ""} />}
 
         <textarea
           placeholder="Description"
           {...register("description")}
           className="w-full p-2 border border-dark-border rounded h-20"
         />
-        {errors.description && (
-          <p className="text-red-500">{errors.description.message}</p>
-        )}
+        {errors.description && <ErrorInput error={errors.description.message ?? ""} />}
 
         <input
           type="text"
@@ -56,9 +55,7 @@ export const FormProduct = ({
           {...register("category")}
           className="w-full p-2 border border-dark-border rounded"
         />
-        {errors.category && (
-          <p className="text-red-500">{errors.category.message}</p>
-        )}
+        {errors.category && <ErrorInput error={errors.category.message ?? ""} />}
 
         <input
           type="url"
@@ -66,7 +63,7 @@ export const FormProduct = ({
           {...register("image")}
           className="w-full p-2 border border-dark-border rounded"
         />
-        {errors.image && <p className="text-red-500">{errors.image.message}</p>}
+        {errors.image && <ErrorInput error={errors.image.message ?? ""} />}
 
         <button
           type="submit"

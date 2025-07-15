@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, ILogin } from "@/lib/schemas/auth";
 import { useRouter } from "next/navigation";
 import { login } from "@/actions/auth";
+import { ErrorInput } from "@/components/ui/ErrorInput";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -41,9 +42,7 @@ export default function LoginPage() {
               }`}
             />
             {errors.username && (
-              <p className="text-dark-error text-sm mt-1">
-                {errors.username.message}
-              </p>
+                <ErrorInput error={errors.username.message ?? ""} />
             )}
           </div>
 
@@ -57,9 +56,7 @@ export default function LoginPage() {
               }`}
             />
             {errors.password && (
-              <p className="text-dark-error text-sm mt-1">
-                {errors.password.message}
-              </p>
+              <ErrorInput error={errors.password.message ?? ""} />
             )}
           </div>
 
