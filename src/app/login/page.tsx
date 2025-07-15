@@ -1,31 +1,21 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-const loginSchema = z.object({
-  username: z
-    .string()
-    .email({ message: "Username debe ser un email válido" }),
-  password: z
-    .string()
-    .min(5, { message: "Password debe tener al menos 5 caracteres" }),
-});
-
-type LoginSchema = z.infer<typeof loginSchema>;
+import { login } from "./action";
+import { loginSchema, ILogin } from "@/lib/schemas/auth";
 
 export default function LoginPage() {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginSchema>({
+  } = useForm<ILogin>({
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data: LoginSchema) => {
-    console.log(data);
+  const onSubmit = async (data: ILogin) => {
+    await login(data);
   };
 
   return (
