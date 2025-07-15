@@ -63,6 +63,11 @@ export default function ProductsPage() {
               onDeleteProduct={handleDeleteProduct}
             />
           ))}
+          {filteredProducts?.length === 0 && !loading && (
+            <div className="col-span-full text-center text-dark-text">
+              No products found
+            </div>
+          )}
           {loading &&
             Array.from({ length: 8 }).map((_, index) => (
               <LoadingSkeleton key={`skeleton-${index}`} />
