@@ -1,4 +1,4 @@
-import { login } from "@/app/login/action";
+import { login } from "@/actions/auth";
 import { ILogin } from "@/lib/schemas/auth";
 import { getToken, removeToken } from "@/lib/utils/token";
 

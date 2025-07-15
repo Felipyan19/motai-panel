@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { useAuth } from "@/hooks/useAuth";
+import { getToken } from "@/lib/utils/token";
 
 export async function middleware(request: NextRequest) {
-  const { isAuthenticated } = useAuth();
-  const isAuth = await isAuthenticated();
+  const token = await getToken();
 
-  if (!isAuth) {
+  if (!token) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 }
