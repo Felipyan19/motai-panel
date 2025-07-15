@@ -9,6 +9,8 @@ import { useProducts } from "@/hooks/useProducts";
 import { useModalProduct } from "@/hooks/useModalProduct";
 import { ConfirmationModal } from "@/components/ui/ConfirmationModal";
 import { IProduct } from "@/lib/schemas/product";
+import { LoadingSkeleton } from "@/components/products/loadingSkeleton";
+import { ErrorFetch } from "@/components/products/ErrorFetch";
 
 export default function ProductsPage() {
   const {
@@ -19,6 +21,7 @@ export default function ProductsPage() {
     createProduct,
     deleteProduct,
     searchProducts,
+    loadProducts,
   } = useProducts();
 
   const {
@@ -47,15 +50,21 @@ export default function ProductsPage() {
         {filteredProducts?.map((product: IProduct) => (
           <Card
             key={product.id}
-            product={product}
+            product={product} 
             onEditProduct={handleEditProduct}
             onDeleteProduct={handleDeleteProduct}
           />
         ))}
-
-        {loading && <p>Loading...</p>}
-        {error && <p>Error: {error.message}</p>}
+        {loading &&
+          Array.from({ length: 8 }).map((_, index) => (
+            <LoadingSkeleton key={index} />
+          ))}
       </div>
+
+        {error && (
+          <ErrorFetch error={error?.message ?? ""} onLoad={loadProducts} />
+        )}
+
       {stateModal.isOpen && (
         <Modal
           isOpen={stateModal.isOpen}

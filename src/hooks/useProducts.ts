@@ -8,9 +8,9 @@ import {
   deleteProductData,
 } from "@/actions/products";
 import { IProduct } from "@/lib/schemas/product";
-import { UseProductsReturn } from "@/types/hooks/hooks";
+import { IUseProductsReturn } from "@/types/hooks/hooks";
 
-export const useProducts = (): UseProductsReturn => {
+export const useProducts = (): IUseProductsReturn => {
   const [products, setProducts] = useState<IProduct[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
